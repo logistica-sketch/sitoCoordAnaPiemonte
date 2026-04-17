@@ -183,13 +183,40 @@ let eventiCalendario = [];
 
 // ── INIT ──────────────────────────────────────────────────
 async function init() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) { window.location.href = window.location.pathname.replace(/[^/]*$/, '') + 'login.html'; return; }
+  const el = document.getElementById('loading');
+  el.innerHTML = '<div class="spinner"></div><div class="loading-text">Verifica sessione...</div>';
 
-  // Carica profilo
+  const { data: { session }, error: sessErr } = await sb.auth.getSession();
+
+  if (sessErr) {
+    el.innerHTML = '<div class="loading-text" style="color:red">Errore sessione: ' + sessErr.message + '</div>';
+    return;
+  }
+
+  if (!session) {
+    el.innerHTML = '<div class="loading-text">Nessuna sessione attiva. <a href="login.html">Login</a></div>';
+    return;
+  }
+
+  el.innerHTML = '<div class="spinner"></div><div class="loading-text">Sessione OK — carico profilo per ' + session.user.email + '...</div>';
+
   const { data: prof, error } = await sb.from('profili').select('*').eq('id', session.user.id).single();
-  if (error || !prof) { await sb.auth.signOut(); window.location.href = window.location.pathname.replace(/[^/]*$/, '') + 'login.html'; return; }
-  if (!prof.attivo) { await sb.auth.signOut(); window.location.href = window.location.pathname.replace(/[^/]*$/, '') + 'login.html'; return; }
+
+  if (error) {
+    el.innerHTML = '<div class="loading-text" style="color:red">Errore DB: ' + error.message + '<br/>ID: ' + session.user.id + '</div>';
+    return;
+  }
+
+  if (!prof) {
+    el.innerHTML = '<div class="loading-text" style="color:red">Profilo non trovato per ID: ' + session.user.id + '</div>';
+    return;
+  }
+
+  if (!prof.attivo) {
+    el.innerHTML = '<div class="loading-text" style="color:red">Utente disattivato.</div>';
+    await sb.auth.signOut();
+    return;
+  }
 
   profilo = prof;
   renderUI();
