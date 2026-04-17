@@ -184,12 +184,12 @@ let eventiCalendario = [];
 // ── INIT ──────────────────────────────────────────────────
 async function init() {
   const { data: { session } } = await sb.auth.getSession();
-  if (!session) { window.location.href = 'login.html'; return; }
+  if (!session) { window.location.href = window.location.pathname.replace(/[^/]*$/, '') + 'login.html'; return; }
 
   // Carica profilo
   const { data: prof, error } = await sb.from('profili').select('*').eq('id', session.user.id).single();
-  if (error || !prof) { await sb.auth.signOut(); window.location.href = 'login.html'; return; }
-  if (!prof.attivo) { await sb.auth.signOut(); window.location.href = 'login.html'; return; }
+  if (error || !prof) { await sb.auth.signOut(); window.location.href = window.location.pathname.replace(/[^/]*$/, '') + 'login.html'; return; }
+  if (!prof.attivo) { await sb.auth.signOut(); window.location.href = window.location.pathname.replace(/[^/]*$/, '') + 'login.html'; return; }
 
   profilo = prof;
   renderUI();
@@ -398,7 +398,7 @@ function renderTools() {
 // ── LOGOUT ────────────────────────────────────────────────
 async function logout() {
   await sb.auth.signOut();
-  window.location.href = 'login.html';
+  window.location.href = window.location.pathname.replace(/[^/]*$/, '') + 'login.html';
 }
 
 init();
