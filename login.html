@@ -85,7 +85,7 @@ const sb = createClient(SUPA_URL, SUPA_KEY);
 
 // Se già loggato, vai alla dashboard
 sb.auth.getSession().then(({ data }) => {
-  if (data.session) window.location.href = window.location.pathname.replace('login.html','') + 'dashboard.html';
+  if (data.session) window.location.href = 'https://logistica-sketch.github.io/sitoCoordAnaPiemonte/dashboard.html';
 });
 
 function showMsg(testo, tipo) {
