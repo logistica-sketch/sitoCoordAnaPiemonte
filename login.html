@@ -103,17 +103,38 @@ async function login() {
   btn.disabled = true;
   btn.textContent = 'Accesso in corso...';
 
-  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  showMsg('Connessione a Supabase...', 'ok');
 
-  if (error) {
-    showMsg('Credenziali non valide. Riprova.', 'err');
+  try {
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      showMsg('Errore: ' + error.message, 'err');
+      btn.disabled = false;
+      btn.textContent = 'Accedi';
+      return;
+    }
+
+    if (!data || !data.session) {
+      showMsg('Sessione non ricevuta, riprova.', 'err');
+      btn.disabled = false;
+      btn.textContent = 'Accedi';
+      return;
+    }
+
+    showMsg('Accesso OK! Vai alla dashboard...', 'ok');
+    
+    const base = window.location.href.replace('login.html', '');
+    const dest = base + 'dashboard.html';
+    showMsg('Redirect verso: ' + dest, 'ok');
+    
+    setTimeout(() => { window.location.href = dest; }, 1500);
+
+  } catch(e) {
+    showMsg('Eccezione: ' + e.message, 'err');
     btn.disabled = false;
     btn.textContent = 'Accedi';
-    return;
   }
-
-  showMsg('Accesso effettuato! Reindirizzamento...', 'ok');
-  setTimeout(() => window.location.href = window.location.pathname.replace('login.html','') + 'dashboard.html', 800);
 }
 
 async function resetPassword() {
