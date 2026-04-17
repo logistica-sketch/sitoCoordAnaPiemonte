@@ -44,26 +44,37 @@ body{font-family:'Titillium Web',Arial,sans-serif;background:#f2f2f2;color:#333;
 .stat-label{font-size:.6rem;color:#999;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;}
 .stat-val{font-size:1.5rem;font-weight:700;color:#002d6e;line-height:1;}
 .stat-sub{font-size:.62rem;color:#bbb;margin-top:.2rem;}
-/* calendario */
-.cal-wrap{background:#fff;border:.5px solid #ddd;border-top:3px solid #003d8f;margin-bottom:1rem;}
-.cal-header{background:#003d8f;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:.55rem 1rem;}
-.cal-title{font-size:.82rem;font-weight:700;}
-.cal-nav{font-size:.75rem;opacity:.8;cursor:pointer;padding:0 .5rem;user-select:none;}
-.cal-nav:hover{opacity:1;}
+/* calendario stile Google */
+.cal-wrap{background:#fff;border:.5px solid #e0e0e0;border-radius:8px;margin-bottom:1rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+.cal-header{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1.2rem;border-bottom:.5px solid #e0e0e0;}
+.cal-header-left{display:flex;align-items:center;gap:.8rem;}
+.cal-title{font-size:1.1rem;font-weight:400;color:#202124;letter-spacing:0;}
+.cal-nav-btn{width:32px;height:32px;border-radius:50%;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#444;font-size:1rem;transition:background .15s;}
+.cal-nav-btn:hover{background:#f1f3f4;}
+.cal-today-btn{border:1px solid #dadce0;border-radius:4px;padding:.3rem .8rem;font-size:.78rem;color:#444;background:transparent;cursor:pointer;font-family:inherit;transition:background .15s;}
+.cal-today-btn:hover{background:#f1f3f4;}
+.cal-view-btns{display:flex;border:1px solid #dadce0;border-radius:4px;overflow:hidden;}
+.cal-view-btn{padding:.3rem .7rem;font-size:.72rem;color:#444;background:transparent;border:none;cursor:pointer;font-family:inherit;transition:background .15s;}
+.cal-view-btn:hover{background:#f1f3f4;}
+.cal-view-btn.active{background:#e8f0fe;color:#1a73e8;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));}
-.cal-dow{text-align:center;font-size:.6rem;font-weight:700;color:#999;padding:.4rem 0;border-bottom:.5px solid #eee;text-transform:uppercase;}
-.cal-day{text-align:center;padding:.3rem .1rem;font-size:.7rem;color:#555;border-bottom:.5px solid #f8f8f8;min-height:42px;cursor:pointer;transition:background .1s;}
-.cal-day:hover{background:#f0f4ff;}
-.cal-day.other{color:#ccc;}
-.cal-day.today .dn{background:#003d8f;color:#fff;font-weight:700;}
-.dn{display:inline-block;width:24px;height:24px;line-height:24px;border-radius:50%;}
-.cal-dot{width:5px;height:5px;border-radius:50%;margin:1px auto 0;}
-.ev-conv{background:#003d8f;}
-.ev-mezzi{background:#1e5c1e;}
-.ev-assic{background:#854f0b;}
-.cal-legend{display:flex;gap:14px;padding:.5rem 1rem;border-top:.5px solid #eee;flex-wrap:wrap;}
-.leg-item{display:flex;align-items:center;gap:5px;font-size:.62rem;color:#777;}
-.leg-dot{width:8px;height:8px;border-radius:50%;}
+.cal-dow{text-align:center;font-size:.68rem;font-weight:500;color:#70757a;padding:.6rem 0;border-bottom:.5px solid #e0e0e0;}
+.cal-day{padding:.3rem .4rem;font-size:.8rem;color:#3c4043;border-right:.5px solid #e0e0e0;border-bottom:.5px solid #e0e0e0;min-height:90px;cursor:pointer;transition:background .1s;vertical-align:top;position:relative;}
+.cal-day:hover{background:#f8f9fa;}
+.cal-day.other{color:#b0b7c0;background:#fafafa;}
+.cal-day.other .cal-ev{opacity:.5;}
+.cal-day-num{display:inline-flex;width:28px;height:28px;align-items:center;justify-content:center;border-radius:50%;font-size:.82rem;font-weight:400;margin-bottom:.2rem;}
+.cal-day.today .cal-day-num{background:#1a73e8;color:#fff;font-weight:500;}
+.cal-ev{display:block;font-size:.65rem;padding:.1rem .4rem;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;}
+.ev-conv{background:#d2e3fc;color:#1967d2;}
+.ev-mezzi{background:#ceead6;color:#137333;}
+.ev-assic{background:#fde8c8;color:#b06000;}
+.cal-legend{display:flex;gap:14px;padding:.6rem 1.2rem;border-top:.5px solid #e0e0e0;flex-wrap:wrap;background:#fafafa;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:.68rem;color:#70757a;}
+.leg-dot{width:10px;height:10px;border-radius:2px;}
+.leg-dot.ev-conv{background:#d2e3fc;border:1px solid #1967d2;}
+.leg-dot.ev-mezzi{background:#ceead6;border:1px solid #137333;}
+.leg-dot.ev-assic{background:#fde8c8;border:1px solid #b06000;}
 /* tools */
 .tools{display:grid;gap:10px;}
 .tool{background:#fff;border:.5px solid #ddd;border-top:3px solid var(--ac);padding:.9rem;}
@@ -129,9 +140,15 @@ body{font-family:'Titillium Web',Arial,sans-serif;background:#f2f2f2;color:#333;
   <!-- Calendario -->
   <div class="cal-wrap" id="cal_section">
     <div class="cal-header">
-      <div class="cal-nav" onclick="cambiasMese(-1)">&#8249;</div>
-      <div class="cal-title" id="cal_title"></div>
-      <div class="cal-nav" onclick="cambiasMese(1)">&#8250;</div>
+      <div class="cal-header-left">
+        <button class="cal-today-btn" onclick="tornaOggi()">Oggi</button>
+        <button class="cal-nav-btn" onclick="cambiasMese(-1)">&#8249;</button>
+        <button class="cal-nav-btn" onclick="cambiasMese(1)">&#8250;</button>
+        <div class="cal-title" id="cal_title"></div>
+      </div>
+      <div class="cal-view-btns">
+        <button class="cal-view-btn active">Mese</button>
+      </div>
     </div>
     <div class="cal-grid" id="cal_grid"></div>
     <div class="cal-legend">
@@ -325,6 +342,7 @@ async function caricaEventi() {
 function renderCalendario() {
   const MESI = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
   const GIORNI = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+  const EV_LABEL = {conv:'Convocazione', mezzi:'Scadenza mezzo', assic:'Scadenza assicurazione'};
   document.getElementById('cal_title').textContent = `${MESI[meseCorrente]} ${annoCorrente}`;
 
   const grid = document.getElementById('cal_grid');
@@ -334,30 +352,26 @@ function renderCalendario() {
   const ultimoGiorno = new Date(annoCorrente, meseCorrente+1, 0).getDate();
   const oggi = new Date();
 
-  // offset lunedì=0
   let offset = primoGiorno.getDay() - 1;
   if (offset < 0) offset = 6;
 
-  // giorni mese precedente
   const ultPrev = new Date(annoCorrente, meseCorrente, 0).getDate();
   for (let i = offset-1; i >= 0; i--) {
-    html += `<div class="cal-day other"><span class="dn">${ultPrev-i}</span></div>`;
+    html += `<div class="cal-day other"><div class="cal-day-num">${ultPrev-i}</div></div>`;
   }
 
-  // giorni mese corrente
   for (let g = 1; g <= ultimoGiorno; g++) {
     const dataStr = `${annoCorrente}-${String(meseCorrente+1).padStart(2,'0')}-${String(g).padStart(2,'0')}`;
     const isOggi = g===oggi.getDate() && meseCorrente===oggi.getMonth() && annoCorrente===oggi.getFullYear();
     const evGiorno = eventiCalendario.filter(e => e.data === dataStr);
-    const dots = evGiorno.map(e=>`<div class="cal-dot ev-${e.tipo}"></div>`).join('');
-    html += `<div class="cal-day${isOggi?' today':''}"><span class="dn">${g}</span>${dots}</div>`;
+    const evHTML = evGiorno.map(e=>`<span class="cal-ev ev-${e.tipo}">${EV_LABEL[e.tipo]}</span>`).join('');
+    html += `<div class="cal-day${isOggi?' today':''}"><div class="cal-day-num">${g}</div>${evHTML}</div>`;
   }
 
-  // giorni mese successivo
   const totCelle = offset + ultimoGiorno;
   const rimanenti = totCelle % 7 === 0 ? 0 : 7 - (totCelle % 7);
   for (let g = 1; g <= rimanenti; g++) {
-    html += `<div class="cal-day other"><span class="dn">${g}</span></div>`;
+    html += `<div class="cal-day other"><div class="cal-day-num">${g}</div></div>`;
   }
 
   grid.innerHTML = html;
@@ -367,6 +381,13 @@ function cambiasMese(dir) {
   meseCorrente += dir;
   if (meseCorrente < 0) { meseCorrente = 11; annoCorrente--; }
   if (meseCorrente > 11) { meseCorrente = 0; annoCorrente++; }
+  renderCalendario();
+}
+
+function tornaOggi() {
+  const ora = new Date();
+  meseCorrente = ora.getMonth();
+  annoCorrente = ora.getFullYear();
   renderCalendario();
 }
 
