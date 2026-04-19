@@ -330,10 +330,20 @@ document.getElementById('data_lettera').value = new Date().toISOString().split('
 
 function selTipo(tipo, el) {
   tipoSel = tipo;
-  document.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('sel'));
-  // seleziona tutti i tipo-card con stesso onclick
+  // Rimuovo sel da tutti i card nel contenitore del card cliccato
+  const container = el.closest('.tipo-grid');
+  if (container) {
+    container.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('sel'));
+  } else {
+    document.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('sel'));
+  }
+  // Segno il card cliccato
+  el.classList.add('sel');
+  // Sincronizzo anche gli altri gruppi di tipo-card
   document.querySelectorAll('.tipo-card').forEach(c => {
-    if(c.getAttribute('onclick') && c.getAttribute('onclick').includes(tipo)) c.classList.add('sel');
+    if(c.getAttribute('onclick') && c.getAttribute('onclick').includes("'" + tipo + "'")) {
+      c.classList.add('sel');
+    }
   });
   aggiornaFormPerTipo();
   aggiornaPreview();
