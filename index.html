@@ -184,14 +184,17 @@ const ORGANICO = {
     { nome: 'Federico Bechis', ruolo: 'Segretario' },
     { nome: 'Marco Sacchetto', ruolo: 'Tesoriere' },
     { nome: 'Angelo Albertella', ruolo: 'Consigliere' },
-    { nome: 'Roberto Bertone', ruolo: 'Consigliere' },
+    { nome: 'Giorgio Tassisto', ruolo: 'Consigliere' },
     { nome: 'Luciano Davico', ruolo: 'Consigliere' },
     { nome: 'Flavio Negro', ruolo: 'Consigliere' }
   ],
+  coordinatore: [
+    { nome: 'Ferdinando Beltramo', ruolo: 'Coordinatore' }
+  ],
   revisori: [
-    { nome: 'Giovanni Grossi', ruolo: 'Revisore dei Conti' },
-    { nome: 'Giuseppe Ballario', ruolo: 'Revisore dei Conti' },
-    { nome: 'Gian Domenico Ciocchetti', ruolo: 'Revisore dei Conti' }
+    { nome: 'Giovanni Grossi', ruolo: 'Presidente Revisori' },
+    { nome: 'Giuseppe Ballario', ruolo: 'Revisore' },
+    { nome: 'Gian Domenico Ciocchetti', ruolo: 'Revisore' }
   ]
 };
 
@@ -342,6 +345,11 @@ function renderOrganico() {
     <div class="org-section-title">Consiglio Direttivo</div>
     <div class="orggrid">
       ${ORGANICO.consiglio.map(orgCard).join('')}
+    </div>
+
+    <div class="org-section-title">Coordinatore</div>
+    <div class="orggrid">
+      ${ORGANICO.coordinatore.map(orgCard).join('')}
     </div>
 
     <div class="org-section-title">Revisori dei Conti</div>
