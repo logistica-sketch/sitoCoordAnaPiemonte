@@ -131,11 +131,16 @@ img{max-width:100%;display:block;}
 }
 
 /* ── FOOTER ── */
-.footer{background:var(--blu);color:rgba(255,255,255,.6);padding:2.5rem 3.5rem;font-size:.78rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
-.footer b{color:#fff;}
+.footer{background:var(--blu);color:rgba(255,255,255,.65);}
 .footer a{color:rgba(255,255,255,.75);}
-.footer a:hover{color:#fff;}
-@media (max-width: 720px){ .footer{padding:2rem 1.5rem;flex-direction:column;text-align:center;} }
+.footer a:hover{color:var(--giallo);}
+.footer-top{padding:2.5rem 3.5rem 2rem;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.1fr .85fr .85fr .85fr;gap:1.8rem;}
+.footer-col h4{color:#fff;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.7rem;}
+.footer-col p, .footer-col a{display:block;font-size:.8rem;line-height:1.65;color:rgba(255,255,255,.65);}
+.footer-name{color:#fff;font-size:.92rem;font-weight:700;line-height:1.5;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.12);padding:.9rem 3.5rem;max-width:1180px;margin:0 auto;font-size:.72rem;color:rgba(255,255,255,.45);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;}
+@media (max-width: 900px){ .footer-top{grid-template-columns:1fr 1fr;} }
+@media (max-width: 720px){ .footer-top{grid-template-columns:1fr;padding:2rem 1.5rem 1.6rem;text-align:center;} .footer-bottom{flex-direction:column;text-align:center;padding:1rem 1.5rem;} }
 
 /* ── PAGE HEADER (pagine interne) ── */
 .page-hero{background:linear-gradient(120deg,var(--blu),var(--blu-2));padding:3.2rem 3.5rem;color:#fff;}
@@ -160,8 +165,28 @@ img{max-width:100%;display:block;}
 <main id="app"></main>
 
 <footer class="footer">
-  <div><b>Coordinamento delle Sezioni Piemontesi dell'Associazione Nazionale Alpini</b><br/>Sede Legale — Corso Marche 79, 10146 Torino</div>
-  <div>C.F. 96047950066 · <a href="mailto:info@coordanapiemonte.it">info@coordanapiemonte.it</a></div>
+  <div class="footer-top">
+    <div class="footer-col">
+      <p class="footer-name">Coordinamento delle Sezioni Piemontesi dell'Associazione Nazionale Alpini</p>
+    </div>
+    <div class="footer-col">
+      <h4>Sede Legale</h4>
+      <p>Corso Marche 79<br/>10146 Torino</p>
+    </div>
+    <div class="footer-col">
+      <h4>Sede Operativa</h4>
+      <p>Via Cerallo 4<br/>13100 Vercelli</p>
+    </div>
+    <div class="footer-col">
+      <h4>Contatti</h4>
+      <a href="mailto:info@coordanapiemonte.it">info@coordanapiemonte.it</a>
+      <a href="mailto:coordanapiemonte@pec.it">PEC: coordanapiemonte@pec.it</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>C.F. 96047950066</span>
+    <span>© 2026 · Created by Riccardo Costa</span>
+  </div>
 </footer>
 
 <script>
